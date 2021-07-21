@@ -2,7 +2,7 @@ import { PanelData, SelectableValue, TimeRange } from '@grafana/data';
 import { positionOnlyGrupped, position, getOverview, positionOutside } from '../ObjectVisualisation/Calculation';
 import { getAllElementInfo, getAllContainer, getDeploymentCount } from './ConvertData';
 import { Element, Namespace, Tuple, Types } from 'types';
-import { withAppMetric, withInfMetric } from './ConvertGraphData';
+import { withAppMetric, withInfMetric, calcMoy } from './ConvertGraphData';
 
 // Returns the elements considering the level.
 export function handler(width: number, height: number, levelOption: string, data: PanelData, timeRange: TimeRange) {
@@ -534,3 +534,52 @@ function nodeGrouped(data: PanelData, groupedOption: string, width: number, heig
   }
   return tupleInfo;
 }
+
+export function metricHandler(
+  width: number,
+  height: number,
+  allInfo: Tuple,
+  levelOption: string,
+  filterOption: SelectableValue,
+  data: PanelData,
+  metric: string
+) {
+  console.log("reached the metric handler function");
+  const allElements = allInfo.inside;
+  if (metric === "CPU Usage") {
+    for (let i = 0; i < allElements.length; i++) {
+      if (calcMoy(data, allElements[i].text, levelOption, metric) > 0.5) {
+        allElements[i].color = "#B81D13";
+        console.log("yo 1");
+      }
+      else if (0.25 < calcMoy(data, allElements[i].text, levelOption, metric) && calcMoy(data, allElements[i].text, levelOption, metric) <= 0.5) {
+        allElements[i].color = "#de5307";
+        console.log("yo 2");
+      }
+      else if (calcMoy(data, allElements[i].text, levelOption, metric) <= 0.25) {
+        allElements[i].color = "#32CD32";
+        console.log("yo 3");
+      }
+    }
+  }
+  if (metric === "Memory Usage") {
+    for (let i = 0; i < allElements.length; i++) {
+      if (calcMoy(data, allElements[i].text, levelOption, metric) > 0.5) {
+        allElements[i].color = "#B81D13";
+        console.log("yo 1");
+      }
+      else if (0.25 < calcMoy(data, allElements[i].text, levelOption, metric) && calcMoy(data, allElements[i].text, levelOption, metric) <= 0.5) {
+        allElements[i].color = "#de5307";
+        console.log("yo 2");
+      }
+      else if (calcMoy(data, allElements[i].text, levelOption, metric) <= 0.25) {
+        allElements[i].color = "#32CD32";
+        console.log(allElements[i].color);
+        console.log("yo 3");
+      }
+    }
+  }
+  const tuple: Tuple = { outside: undefined, inside: allElements };
+  return tuple;
+}
+

@@ -5,7 +5,7 @@ import { Canvas } from 'ObjectVisualisation/Canvas';
 import { DropdownComponent, DropdownComponentFilter } from 'Menu/Dropdown';
 import { dropdownGroupedOptions, dropdownOptions, dropdownOptionsFilter } from 'Menu/DropdownOptions';
 import 'style/SimplePanel.css';
-import { handler, filterHandler, groupedWithFilterHandler, groupedHandler } from 'processMetric/Handler';
+import { handler, filterHandler, groupedWithFilterHandler, groupedHandler, metricHandler } from 'processMetric/Handler';
 import { Element } from 'types';
 import { Drilldown } from './Menu/Drilddown';
 import { GraphUI } from './GraphUI';
@@ -15,8 +15,8 @@ const levelOptions = ['Overview', 'Namespace', 'Deployment', 'Pod', 'Container']
 const groupedOptions = ['Namespace', 'Deployment', 'Pod', 'Container'];
 const metricOptions = [
   '-',
-  'CPU Nutzung',
-  'Speicher Nutzung',
+  'CPU Usage',
+  'Memory Usage',
   'CPU Limits',
   'Memory Limits',
   'CPU Requests',
@@ -56,13 +56,13 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height, tim
         if (value === 'Overview') {
           setFilterOption({ label: '-' });
           setGroupedOption('-');
-          callHandlers(value, { label: '-' }, '-');
+          callHandlers(value, { label: '-' }, '-', metricOption);
         } else {
-          callHandlers(value, filterOption, groupedOption);
+          callHandlers(value, filterOption, groupedOption, metricOption);
         }
       } catch {
         setLevelOption(label);
-        callHandlers(label, filterOption, groupedOption);
+        callHandlers(label, filterOption, groupedOption, metricOption);
       }
     }
   };
@@ -74,7 +74,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height, tim
     if (option.label !== undefined && levelOption !== 'Node') {
       setFilterOption(option);
       setGroupedOption('-');
-      callHandlers(levelOption, option, '-');
+      callHandlers(levelOption, option, '-', metricOption);
       setShowDrilldown(false);
     }
   };
@@ -85,7 +85,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height, tim
   const setGroupedOptionHandler = (label: string | undefined) => {
     if (label !== undefined) {
       setGroupedOption(label);
-      callHandlers(levelOption, filterOption, label);
+      callHandlers(levelOption, filterOption, label, metricOption);
       setShowDrilldown(false);
     }
   };
@@ -96,14 +96,16 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height, tim
   const setMetricOptionHandler = (label: string | undefined) => {
     if (label !== undefined) {
       setMetricOption(label);
+      callHandlers(levelOption, filterOption, groupedOption, label);
       setShowDrilldown(false);
+      console.log(label);
     }
   };
 
   /**
    * Calls the matching handlers.
    */
-  const callHandlers = (level: string, filter: SelectableValue, grouped: string) => {
+  const callHandlers = (level: string, filter: SelectableValue, grouped: string, metric: string) => {
     let allElements: Tuple = handler(width, height, level, data, timeRange);
     setShowElements(allElements);
     if (filter.label !== '-') {
@@ -113,6 +115,10 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height, tim
       setShowElements(groupedHandler(data, showElements, level, filter, grouped, width, height, false, timeRange));
     } else if (grouped !== '-') {
       setShowElements(groupedWithFilterHandler(showElements, level, filter, grouped, data, width, height, timeRange));
+    }
+    if (metric !== '-') {
+      console.log("reached the metric vergleich");
+      setShowElements(metricHandler(width, height, allElements, level, filter, data, metric));
     }
   };
 
@@ -190,7 +196,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height, tim
                   options={dropdownOptions(metricOptions, metricOption)}
                   onChange={setMetricOptionHandler}
                   value={metricOption}
-                  isDisabled={true}
+                  isDisabled={false}
                 />
               </div>
             </div>

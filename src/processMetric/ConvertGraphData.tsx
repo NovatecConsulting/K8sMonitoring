@@ -37,6 +37,7 @@ export function getInfrastructureSeries(
       return allSeries[0];
     }
   } else {
+    console.log(calcMoy( data, name, level, metric));
     return getOneSeries(width, data, timeRange, name, level, metric);
   }
 }
@@ -53,6 +54,7 @@ export function getApplicationSeries(
   metric: string
 ) {
   if (level === 'Container') {
+    
     return getOneSeries(width, data, timeRange, name, level, metric);
   } else {
     const allContainer = getAllContainer(data);
@@ -279,4 +281,41 @@ export function withInfMetric(
     };
   }
   return withInf;
+}
+
+export function calcMoy(
+  data: PanelData,
+  name: string,
+  level: string,
+  metric: string
+) {
+
+  const metricName = convertMetricName(metric);
+  // convert metric to promql metric name
+
+  let dataIndex = 0;
+  for (let i = 0; i < data.series.length; i++) {
+    const temp = data.series[i].name?.split(' ');
+    if (temp !== undefined) {
+      if (temp[0] === name) {
+        if (temp[1] === level) {
+          if (temp[2] === metricName) {
+            dataIndex = i;
+          }
+        }
+      }
+    }
+  }
+
+  if (dataIndex === 0) {
+    return "no";
+  }
+  
+  let valueArray = data.series[dataIndex].fields[1].values.toArray();
+  let total = 0;
+  for (let i = 0; i < valueArray.length; i++) {
+     total  += valueArray[i];
+  }
+  let avg = total / valueArray.length;
+  return avg;
 }
