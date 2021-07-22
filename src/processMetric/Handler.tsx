@@ -3,6 +3,7 @@ import { positionOnlyGrupped, position, getOverview, positionOutside } from '../
 import { getAllElementInfo, getAllContainer, getDeploymentCount } from './ConvertData';
 import { Element, Namespace, Tuple, Types } from 'types';
 import { withAppMetric, withInfMetric, calcMoy } from './ConvertGraphData';
+import { useState } from 'react-bootstrap/node_modules/@types/react';
 
 // Returns the elements considering the level.
 export function handler(width: number, height: number, levelOption: string, data: PanelData, timeRange: TimeRange) {
@@ -534,6 +535,10 @@ function nodeGrouped(data: PanelData, groupedOption: string, width: number, heig
   }
   return tupleInfo;
 }
+
+export let [redInput, setRedInput] = useState(0);
+export let [orangeInput, setOrangeInput] = useState(0);
+export let [greenInput, setGreenInput] = useState(0);
 
 export function metricHandler(
   width: number,

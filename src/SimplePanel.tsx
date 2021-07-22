@@ -13,7 +13,7 @@ import { NodeMetric } from './NodeMetric';
 
 const levelOptions = ['Overview', 'Namespace', 'Deployment', 'Pod', 'Container'];
 const groupedOptions = ['Namespace', 'Deployment', 'Pod', 'Container'];
-const metricOptions = [
+export const metricOptions = [
   '-',
   'CPU Usage',
   'Memory Usage',
