@@ -3,7 +3,7 @@ import { positionOnlyGrupped, position, getOverview, positionOutside } from '../
 import { getAllElementInfo, getAllContainer, getDeploymentCount } from './ConvertData';
 import { Element, Namespace, Tuple, Types } from 'types';
 import { withAppMetric, withInfMetric, calcMoy } from './ConvertGraphData';
-import { useState } from 'react-bootstrap/node_modules/@types/react';
+
 
 // Returns the elements considering the level.
 export function handler(width: number, height: number, levelOption: string, data: PanelData, timeRange: TimeRange) {
@@ -535,10 +535,17 @@ function nodeGrouped(data: PanelData, groupedOption: string, width: number, heig
   }
   return tupleInfo;
 }
-
-export let [redInput, setRedInput] = useState(0);
-export let [orangeInput, setOrangeInput] = useState(0);
-export let [greenInput, setGreenInput] = useState(0);
+let orangee = 0;
+let greeno = 0;
+let redi = 0;
+export function setTheMetricsOption(red: number, orange: number, green: number) {
+  orangee = orange;
+  greeno = green;
+  redi = red;
+  console.log(redi);
+  console.log(orangee);
+  console.log(greeno);
+}
 
 export function metricHandler(
   width: number,
@@ -553,7 +560,7 @@ export function metricHandler(
   const allElements = allInfo.inside;
   if (metric === "CPU Usage") {
     for (let i = 0; i < allElements.length; i++) {
-      if (calcMoy(data, allElements[i].text, levelOption, metric) > 0.5) {
+      if (calcMoy(data, allElements[i].text, levelOption, metric) > redi) {
         allElements[i].color = "#B81D13";
         console.log("yo 1");
       }

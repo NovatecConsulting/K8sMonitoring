@@ -4,14 +4,13 @@ import { DropdownComponent } from 'Menu/Dropdown';
 import { dropdownOptions } from 'Menu/DropdownOptions';
 import { FaCircle } from 'react-icons/fa';
 import { metricOptions } from 'SimplePanel';
-import { redInput, orangeInput, greenInput } from "processMetric/Handler";
-import { setRedInput,setOrangeInput, setGreenInput } from "processMetric/Handler";
+import { setTheMetricsOption } from "processMetric/Handler";
 
 export const ThresholdItemMetric = () => {
     const [chosenOption, setChosenOption] = useState(metricOptions[0]);
-    /*let [redInput, setRedInput] = useState(0);
+    let [redInput, setRedInput] = useState(0);
     let [orangeInput, setOrangeInput] = useState(0);
-    let [greenInput, setGreenInput] = useState(0);*/
+    let [greenInput, setGreenInput] = useState(0);
 
     const handleChange = (label: string | undefined) => {
         if (label !== undefined) {
@@ -31,6 +30,9 @@ export const ThresholdItemMetric = () => {
             setRedInput(event.target.value);
             console.log(redInput);
         }
+    }
+    function handleClick(){
+        setTheMetricsOption(redInput,orangeInput,greenInput);
     }
     return <div>
         <DropdownComponent
@@ -81,7 +83,7 @@ export const ThresholdItemMetric = () => {
             <Button variant="primary" size="sm">
                 Apply Changes
             </Button>{' '}
-            <Button variant="secondary" size="sm">
+            <Button variant="secondary" size="sm" onClick={handleClick}>
                 Delete Label
             </Button>
         </div>
