@@ -560,16 +560,16 @@ export function metricHandler(
   const allElements = allInfo.inside;
   if (metric === "CPU Usage") {
     for (let i = 0; i < allElements.length; i++) {
-      if (calcMoy(data, allElements[i].text, levelOption, metric) > redi) {
-        allElements[i].color = "#B81D13";
+      if (calcMoy(data, allElements[i].text, levelOption, metric) > 0.2) {
+        allElements[i].color = "#32CD32";
         console.log("yo 1");
       }
-      else if (0.25 < calcMoy(data, allElements[i].text, levelOption, metric) && calcMoy(data, allElements[i].text, levelOption, metric) <= 0.5) {
+      else if (0.09 < calcMoy(data, allElements[i].text, levelOption, metric) && calcMoy(data, allElements[i].text, levelOption, metric) <= 0.2) {
         allElements[i].color = "#de5307";
         console.log("yo 2");
       }
-      else if (calcMoy(data, allElements[i].text, levelOption, metric) <= 0.25) {
-        allElements[i].color = "#32CD32";
+      else if (calcMoy(data, allElements[i].text, levelOption, metric) <= 0.09) {
+        allElements[i].color = "#B81D13";
         console.log("yo 3");
       }
     }
@@ -577,7 +577,7 @@ export function metricHandler(
   if (metric === "Memory Usage") {
     for (let i = 0; i < allElements.length; i++) {
       if (calcMoy(data, allElements[i].text, levelOption, metric) > 0.5) {
-        allElements[i].color = "#B81D13";
+        allElements[i].color = "#32CD32";
         console.log("yo 1");
       }
       else if (0.25 < calcMoy(data, allElements[i].text, levelOption, metric) && calcMoy(data, allElements[i].text, levelOption, metric) <= 0.5) {
@@ -585,7 +585,7 @@ export function metricHandler(
         console.log("yo 2");
       }
       else if (calcMoy(data, allElements[i].text, levelOption, metric) <= 0.25) {
-        allElements[i].color = "#32CD32";
+        allElements[i].color = "#B81D13";
         console.log(allElements[i].color);
         console.log("yo 3");
       }

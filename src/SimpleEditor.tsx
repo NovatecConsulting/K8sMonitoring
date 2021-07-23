@@ -4,9 +4,9 @@ import { StandardEditorProps } from '@grafana/data';
 //import { Select } from '@grafana/ui';
 //import { LegacyForms } from '@grafana/ui';
 //import { SelectableValue } from '@grafana/data';
-//const { Select } = LegacyForms;
 import { FaPlusCircle } from 'react-icons/fa';
-import { ThresholdItemMetric } from 'thresholdMetricItem';
+import { ThresholdItemMetric } from 'ThresholdMetricItem';
+//import { Select } from '@grafana/ui';
 
 export const SimpleEditor: React.FC<StandardEditorProps<boolean>> = ({ }) => {
     const [items, setItems] = useState([<ThresholdItemMetric />]);
@@ -29,12 +29,12 @@ export const SimpleEditor: React.FC<StandardEditorProps<boolean>> = ({ }) => {
         setItems(temp);
         console.log(items);
     };
-// it doesn't want to be at the end, the component 
-return <div>
-<Button variant="secondary" size="lg" onClick={addNewLabel}>
-    <FaPlusCircle />
-</Button>
-{items}
-</div>
+    // it doesn't want to be at the end, the component 
+    return <div>
+        <Button variant="secondary" size="lg" onClick={addNewLabel}>
+            <FaPlusCircle />
+        </Button>
+        {items}
+    </div>
 
 };

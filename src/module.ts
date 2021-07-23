@@ -7,7 +7,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
   .addCustomEditor({
     id: 'label',
     path: 'label',
-    name: 'Label',
+    name: 'Threshold',
     editor: SimpleEditor,
   })
     .addTextInput({
