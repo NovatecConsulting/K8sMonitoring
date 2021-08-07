@@ -38,6 +38,7 @@ export const MetricImage = ({ position, itemWidth, item, itemSelectHandler }: Pr
   const itemClicked = () => {
     console.log(item.elementInfo.withAppMetrics);
     console.log(item.elementInfo.withInfMetrics);
+    console.log();
     itemSelectHandler(item);
   };
 

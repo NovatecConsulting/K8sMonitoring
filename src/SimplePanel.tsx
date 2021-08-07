@@ -26,6 +26,7 @@ export const metricOptions = [
 interface Props extends PanelProps<SimpleOptions> { }
 
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height, timeRange }) => {
+  const {theOptions} = options;
   let firstFilterOption: SelectableValue = { label: '-', description: 'Overview' };
   const [levelOption, setLevelOption] = useState('Overview');
   const [filterOption, setFilterOption] = useState(firstFilterOption);
@@ -118,8 +119,11 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height, tim
     }
     if (metric !== '-') {
       console.log("reached the metric vergleich");
-      setShowElements(metricHandler(width, height, allElements, level, filter, data, metric));
+      setShowElements(metricHandler(width, height, allElements, level, filter, data, metric,theOptions.dropdownOption, parseFloat(theOptions.red),parseFloat(theOptions.orange),parseFloat(theOptions.green)));
     }
+    console.log(" handler function reached");
+    console.log(theOptions.dropdownOption);
+    console.log(theOptions);
   };
 
   /**

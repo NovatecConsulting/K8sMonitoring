@@ -554,22 +554,27 @@ export function metricHandler(
   levelOption: string,
   filterOption: SelectableValue,
   data: PanelData,
-  metric: string
+  metric: string,
+  chosenMetric: string,
+  red: number,
+  orange: number,
+  green: number,
 ) {
   console.log("reached the metric handler function");
   const allElements = allInfo.inside;
-  if (metric === "CPU Usage") {
+  if (metric === chosenMetric) {
     for (let i = 0; i < allElements.length; i++) {
-      if (calcMoy(data, allElements[i].text, levelOption, metric) > 0.2) {
-        allElements[i].color = "#32CD32";
-        console.log("yo 1");
+      if (calcMoy(data, allElements[i].text, levelOption, metric) > red) {
+        allElements[i].color = "#B81D13";
+        console.log("wassup");
+
       }
-      else if (0.09 < calcMoy(data, allElements[i].text, levelOption, metric) && calcMoy(data, allElements[i].text, levelOption, metric) <= 0.2) {
+      else if (green < calcMoy(data, allElements[i].text, levelOption, metric) && calcMoy(data, allElements[i].text, levelOption, metric) <= orange) {
         allElements[i].color = "#de5307";
         console.log("yo 2");
       }
-      else if (calcMoy(data, allElements[i].text, levelOption, metric) <= 0.09) {
-        allElements[i].color = "#B81D13";
+      else if (calcMoy(data, allElements[i].text, levelOption, metric) <= green) {
+        allElements[i].color = "#32CD32";
         console.log("yo 3");
       }
     }

@@ -37,7 +37,7 @@ export function getInfrastructureSeries(
       return allSeries[0];
     }
   } else {
-    console.log(calcMoy( data, name, level, metric));
+    //console.log(calcMoy( data, name, level, metric));
     return getOneSeries(width, data, timeRange, name, level, metric);
   }
 }
