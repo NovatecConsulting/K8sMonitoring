@@ -7,7 +7,8 @@ import { RectItem } from 'ObjectVisualisation/Item/RectItem';
 import { TextItem } from 'ObjectVisualisation/Item/TextItem';
 import { SelectableValue } from '@grafana/data';
 import { MetricImage } from 'ObjectVisualisation/Item/MetricImage';
-
+import { AppMetricInfo } from 'ObjectVisualisation/Item/AppMetricInfo';
+import { InfMetricInfo } from 'ObjectVisualisation/Item/InfMetricInfo';
 type Props = {
   allInfos: Element[];
   setGroupedOptionHandler: (value: SelectableValue) => void;
@@ -43,6 +44,20 @@ export const Item = ({ allInfos, setGroupedOptionHandler, itemSelectHandler }: P
           itemWidth={info.width}
           item={info}
           itemSelectHandler={itemSelectHandler}
+        />
+      ))}
+      {allInfos.map(info => (
+        <AppMetricInfo
+          position={info.position}
+          itemWidth={info.width}
+          item={info}
+        />
+      ))}
+       {allInfos.map(info => (
+        <InfMetricInfo
+          position={info.position}
+          itemWidth={info.width}
+          item={info}
         />
       ))}
     </Layer>

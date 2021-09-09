@@ -36,6 +36,9 @@ export const MetricImage = ({ position, itemWidth, item, itemSelectHandler }: Pr
     setIsMousedOver(false);
   }
   const itemClicked = () => {
+    console.log(item.elementInfo.withAppMetrics);
+    console.log(item.elementInfo.withInfMetrics);
+    console.log();
     itemSelectHandler(item);
   };
 
